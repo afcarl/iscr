@@ -8,14 +8,8 @@ from tqdm import tqdm
 
 from iscr.utils import load_from_pickle, save_to_pickle
 
-
-def segment_unigram(text):
-    raise NotImplementedError
-
-
 def segment_jieba(text):
     return ' '.join(list(jieba.cut(text)))
-
 
 def segment_ckip(text):
     raise NotImplementedError

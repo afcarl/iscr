@@ -1,5 +1,5 @@
 """
-	Builds index from transcripts
+	Builds index from segmented transcripts
 """
 from collections import defaultdict
 from glob import glob
