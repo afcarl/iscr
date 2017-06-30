@@ -5,11 +5,11 @@ with open('requirements.txt') as f:
 
 setup(name='iscr',
       version='0.1',
-      description='Interactive Spoken Content Retrieval',
+      description='Search Engine for Interactive Spoken Content Retrieval',
       url='http://github.com/iammrhelo/ISCR',
       author='Antonie Lin',
       author_email='iammrhelo@gmail.om',
       license='MIT',
       packages=['iscr'],
-	  install_requires=required,
+      install_requires=required,
       zip_safe=False)
