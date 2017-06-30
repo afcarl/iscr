@@ -1,18 +1,8 @@
 from iscr.searchengine import metrics
 
-def test_kl_divergence():
-    p = { 1: 0.5, 2: 0.4, 4: 0.1 }
-    q = { 1: 0.2, 2: 0.3, 3: 0.5 }
-
-    assert metrics.kl_divergence(p,q) == -0.5732181949177899
-
-    q = { 5: 1.0 }
-
-    assert metrics.kl_divergence(p,q) == 0.0
-
-    q = { 2: 0.7, 5: 0.3 }
-
-    assert metrics.kl_divergence(p,q) == 0.22384631517416903
+def test_normalize():
+    p = { 1: 1, 2: 3 }
+    assert metrics.normalize(p, inplace=False) == { 1 : 0.25, 2: 0.75 }
 
 def test_evalAP():
 	ret = [ (1, 100), (2, 99), (3, 98) ]
