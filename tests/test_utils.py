@@ -1,4 +1,5 @@
 import io
+import os
 
 from iscr.searchengine import utils
 
@@ -12,6 +13,8 @@ def test_pickle():
 	obj2 = utils.load_from_pickle(test_pickle_file)
 
 	assert obj == obj2
+
+	os.remove(test_pickle_file)
 
 def test_json():
 	obj = { 1: 2, 3: 4 }
@@ -28,3 +31,5 @@ def test_json():
 		for key, val in obj2.items():
 			obj3[ int(key) ] = val
 		assert obj == obj3
+
+	os.remove(test_json_file)
