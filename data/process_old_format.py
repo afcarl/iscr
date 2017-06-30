@@ -6,7 +6,7 @@ from pympler import asizeof
 from iscr.searchengine.indexer import Indexer
 from iscr.searchengine.utils import save_to_pickle, convert_size
 
-def parse_file_to_pickle(data_dir, out_dir):
+def parse_file_to_pickle(data_dir, out_dir, new_query_pickle):
 	data_name = os.path.basename(data_dir)
 
 	lex_file = os.path.join(data_dir, 'PTV.utf8.lex')
@@ -30,8 +30,7 @@ def parse_file_to_pickle(data_dir, out_dir):
 	save_to_pickle(lex_pickle,lex_dict)
 
 	print("Saving query answer...")
-	query_pickle = os.path.join('.','queries','onebest_CMVN.query.pickle')
-	save_to_pickle(query_pickle, query_answer)
+	save_to_pickle(new_query_pickle, query_answer)
 
 	print("Saving documents...")
 	document_pickle = os.path.join(out_dir,'document.pickle')
@@ -102,6 +101,7 @@ def read_lm_file(lm_file, isdocname = False):
 
 
 if __name__ == "__main__":
-	data_dir = './data/onebest_CMVN'
-	out_dir = './iscr/searchengine/data/PTV.onebest.CMVN'
-	parse_file_to_pickle(data_dir, out_dir)
+	data_dir = './data/lattice_CMVN'
+	out_dir = './iscr/searchengine/data/PTV.lattice.CMVN'
+	query_pickle = './queries/PTV.lattice.CMVN.query.pickle'
+	parse_file_to_pickle(data_dir, out_dir, query_pickle)
