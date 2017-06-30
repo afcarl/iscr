@@ -1,6 +1,4 @@
 import math
-import numpy as np
-
 
 def normalize(d, inplace=False):
     total = sum(d.values())
@@ -13,17 +11,21 @@ def normalize(d, inplace=False):
             norm_d[k] = v / total
         return norm_d
 
+
 def cross_entropy(p, q):
-	if q == 0:
-		return 0
-	else:
-		return -1 * p * math.log(p/q)
+    if q == 0:
+        return 0
+    else:
+        return -1 * p * math.log(p / q)
+
 
 def evalAP(ret, ans):
     tp = [float(docID in ans) for docID, val in ret]
-    atp = np.cumsum(tp)
 
-    precision = [atp[idx] / (idx + 1)
-                 for idx, (docID, val) in enumerate(ret) if tp[idx]]
+    precisions = []
+    ans_count = 0
+    for idx, (docID, val) in enumerate(ret):
+        ans_count += tp[idx]
+        precisions.append(ans_count / (idx + 1) * tp[idx])
 
-    return (sum(precision) / len(ans) if len(ans) else 0.)
+    return (sum(precisions) / len(ans) if len(ans) else 0.)

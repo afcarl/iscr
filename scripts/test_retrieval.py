@@ -4,7 +4,6 @@ import sys
 import time
 sys.path.append('.')
 
-import numpy as np
 from tqdm import tqdm
 
 from iscr.searchengine import SearchEngine
@@ -45,7 +44,7 @@ def run_ap_baseline(query_pickle, data_dir):
 
 	# Time end
 	_end_time = time.time()
-	print("Mean Average Precision: {}".format(np.mean(aps)))
+	print("Mean Average Precision: {}".format(sum(aps) / len(aps) ))
 	print("Time taken: {} seconds".format(_end_time - _start_time))
 
 if __name__ == "__main__":
