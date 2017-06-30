@@ -19,18 +19,6 @@ def cross_entropy(p, q):
 	else:
 		return -1 * p * math.log(p/q)
 
-def kl_divergence(p, q):
-    # Normalizing is the bottle neck!
-    kl_sum = 0.
-    for word_idx in p:
-        if word_idx in q:
-            p_prob = p[word_idx]
-            q_prob = q[word_idx]
-            kl_sum -= p_prob * math.log(p_prob / q_prob)
-
-    return kl_sum
-
-
 def evalAP(ret, ans):
     tp = [float(docID in ans) for docID, val in ret]
     atp = np.cumsum(tp)
