@@ -3,7 +3,7 @@ import os
 import time
 
 from .metrics import normalize, cross_entropy
-from .utils import load_from_pickle, save_to_pickle
+from ..utils import load_from_pickle
 
 
 class SearchEngine(object):
@@ -17,7 +17,7 @@ class SearchEngine(object):
 
     def retrieve(self, query, negquery=None, alpha=1000, beta=0.1):
         """
-                Retrieves result using query and negquery if negquery exists
+            Retrieves result using query and negquery if negquery exists
         """
         # Set result key by docname
         result = {}

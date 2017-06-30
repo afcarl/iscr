@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 from iscr.searchengine import SearchEngine
 from iscr.searchengine.metrics import normalize, evalAP
-from iscr.searchengine.utils import load_from_pickle
+from iscr.utils import load_from_pickle
 
 def run_ap_baseline(query_pickle, data_dir):
 

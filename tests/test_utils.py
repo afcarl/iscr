@@ -1,7 +1,7 @@
 import io
 import os
 
-from iscr.searchengine import utils
+from iscr import utils
 
 def test_pickle():
 	obj = { 1: 2, 3: 4}

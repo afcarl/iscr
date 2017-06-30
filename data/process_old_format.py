@@ -4,7 +4,7 @@ import os
 from pympler import asizeof
 
 from iscr.searchengine.indexer import Indexer
-from iscr.searchengine.utils import save_to_pickle, convert_size
+from iscr.utils import save_to_pickle, convert_size
 
 def parse_file_to_pickle(data_dir, out_dir, new_query_pickle):
 	data_name = os.path.basename(data_dir)

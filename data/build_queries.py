@@ -3,7 +3,7 @@ import os
 import sys
 
 from iscr.searchengine.indexer import text_to_wordcount
-from iscr.searchengine.utils import load_from_pickle, save_to_pickle
+from iscr.utils import load_from_pickle, save_to_pickle
 
 def build_query_answer(lex_dict, query_file, answer_file, out_pickle):
     # Perform query wordcount

@@ -6,7 +6,7 @@ import pickle
 import jieba
 from tqdm import tqdm
 
-from iscr.searchengine.utils import load_from_pickle, save_to_pickle
+from iscr.utils import load_from_pickle, save_to_pickle
 
 
 def segment_unigram(text):

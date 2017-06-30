@@ -6,7 +6,7 @@ sys.path.append('..')
 
 from tqdm import tqdm
 
-from iscr.searchengine import utils
+from iscr import utils
 import reader
 
 
