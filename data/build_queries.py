@@ -8,6 +8,7 @@ from iscr.utils import load_from_pickle, save_to_pickle
 
 def build_query_answer(lex_dict, query_file, answer_file, out_pickle):
     # Perform query wordcount
+    print("Counting queries...")
     query = {}
     with open(query_file, 'r') as fin:
         for query_idx, line in enumerate(fin.readlines(), 1):
@@ -15,6 +16,7 @@ def build_query_answer(lex_dict, query_file, answer_file, out_pickle):
                 lex_dict, line), 'answer': {} }
 
     # Load answer
+    print("Loading answers...")
     with open(answer_file) as fin:
         for line in fin.readlines():
             tokens = line.split()
@@ -23,6 +25,7 @@ def build_query_answer(lex_dict, query_file, answer_file, out_pickle):
             query[query_idx]['answer'][ answer_idx ] = 1
 
     # Save to pickle
+    print("Saving to {}...".format(out_pickle))
     save_to_pickle(out_pickle, query)
 
     return query

@@ -25,8 +25,8 @@ class SearchEngine(object):
 
     def retrieve(self, query, negquery=None):
         """
-                Returns a list of tuples [(docname, score),...]
-                For MAP, every docname has to exist
+            Returns a list of tuples [(docname, score),...]
+            For MAP, every docname has to exist
         """
         self.refresh_results()
 
@@ -49,11 +49,9 @@ class SearchEngine(object):
             word_background_prob = self.indices['background'][wordID]
             word_inverted_index = self.indices['inverted_index'][wordID]
 
-            for docID in self.docnames:
+            for docID, doclength in self.indices['doclengs'].items():
                 # Get doc prob if in inverted_index, else set to 0.
                 docprob = word_inverted_index.get(docID, 0.)
-
-                doclength = self.indices['doclengs'][docID]
 
                 smoothed_docprob = smooth_docprob(
                     docprob, doclength, word_background_prob)

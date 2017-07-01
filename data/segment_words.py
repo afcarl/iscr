@@ -15,26 +15,30 @@ from iscr.utils import load_from_pickle, save_to_pickle
 client = None  # For CKIP
 
 
-def segment_jieba(text, verbose=False):
+def segment_jieba(text, retain_line=False):
 	result = list(jieba.cut(text))
-	if verbose:
-		print(result)
 	return '\n'.join(result)
 
 
-def segment_ckip(text, verbose=False):
+def segment_ckip(text, retain_line=False):
 	result = client.segment(text, pos=False)
-	if verbose:
-		print(result[0])
-	return '\n'.join(result[0])
+	if retain_line:
+		return ' '.join(result[0]) + '\n'
+	else:
+		return '\n'.join(result[0])
 
 
-def segment_file(segment, filepath, verbose=False):
+def segment_file(segment, filepath, retain_line=False):
 	text = ""
 	with open(filepath, 'r') as fin:
-		for line in fin.readlines():
-			text += ''.join(line.split()) + '\n'
-	ret = segment(text)
+		if retain_line:
+			for line in tqdm(fin.readlines()):
+				text += segment(''.join(line.split())+'\n', retain_line=True)
+			ret = text
+		else:
+			for line in fin.readlines():
+				text += ''.join(line.split()) + '\n'
+			ret = segment(text)
 	return ret
 
 
@@ -44,7 +48,7 @@ def run_segment(segment, query_file, out_query_file, transcript_dir, out_transcr
 	if os.path.exists(out_query_file):
 		print("{} already exists, skipping...".format(out_query_file))
 	else:
-		segmented_query = segment_file(segment, query_file, verbose=False)
+		segmented_query = segment_file(segment, query_file, retain_line=True)
 		with open(out_query_file, 'w') as fout:
 			fout.write(segmented_query)
 
