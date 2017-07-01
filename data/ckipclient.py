@@ -47,8 +47,8 @@ class CKIPClient:
                 results = self._segment(text, pos)
                 status = True
             except ConnectionError:
-                print("Connection error occured! Wait for 1 second.")
-                time.sleep(1)
+                print("Connection error occured! Wait for 10 seconds.")
+                time.sleep(10)
         return results
 
     def _segment(self, text: str, pos: bool = True):
@@ -71,7 +71,7 @@ class CKIPClient:
 
         if self.safe:
             self.counter += 1
-            time.sleep(min(self.counter ** 0.5, 0.2))
+            time.sleep(min(self.counter ** 0.5, 2))
 
         request_xml = (
             '<?xml version="1.0" ?>'
