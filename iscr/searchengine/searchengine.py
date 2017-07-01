@@ -8,88 +8,67 @@ from ..utils import load_from_pickle
 
 
 class SearchEngine(object):
-	def __init__(self, lex_pickle, index_pickle, build_wordcount=False):
+    def __init__(self, lex_pickle, index_pickle, build_wordcount=False):
 
-		print("[SearchEngine] Loading lex from {}".format(lex_pickle))
-		self.lex_dict = load_from_pickle(lex_pickle)
+        print("[SearchEngine] Loading lex from {}".format(lex_pickle))
+        self.lex_dict = load_from_pickle(lex_pickle)
 
-		print("[SearchEngine] Loading index from {}".format(index_pickle))
-		self.indices = load_from_pickle(index_pickle)
+        print("[SearchEngine] Loading index from {}".format(index_pickle))
+        self.indices = load_from_pickle(index_pickle)
 
-		self.docnames = self.indices['doclengs'].keys()
+        self.docnames = self.indices['doclengs'].keys()
 
-	def refresh_results(self):
-		self.result = {}
-		for docname in self.indices['doclengs'].keys():
-			self.result[docname] = sys.float_info.min
+    def refresh_results(self):
+        self.result = defaultdict(float)
+        for docname in self.docnames:
+            self.result[docname] = 0.
 
-	def retrieve(self, query, negquery=None):
-		"""
-			Returns a list of tuples [(docname, score),...]
-			For MAP, every docname has to exist
-		"""
-		self.refresh_results()
+    def retrieve(self, query, negquery=None):
+        """
+                Returns a list of tuples [(docname, score),...]
+                For MAP, every docname has to exist
+        """
+        self.refresh_results()
 
-		self._retrieve(query, 1)
-		if negquery is not None:
-			self._retrieve(negquery, -0.1)
+        self._retrieve(query, 1)
+        if negquery is not None:
+            self._retrieve(negquery, -0.1)
 
-		sorted_ret = sorted(self.result.items(), key=lambda x: x[1], reverse=True)
-		return sorted_ret
+        sorted_ret = sorted(self.result.items(),
+                            key=lambda x: x[1], reverse=True)
+        return sorted_ret
 
-	def _retrieve(self, query, entropy_weight=1.):
-		# Query
-		for wordID, word_prob in query.items():
-			# Check if query word intersects with documents
-			if wordID not in self.indices['background']:
-				continue
+    def _retrieve(self, query, entropy_weight=1.):
+        # Query
+        for wordID, word_prob in query.items():
+            # Check if query word intersects with documents
+            if wordID not in self.indices['background']:
+                continue
 
-			# Recored scored documents for this word
-			unscored_docs = set(self.docnames)
+            # Recored scored documents for this word
+            word_background_prob = self.indices['background'][wordID]
+            word_inverted_index = self.indices['inverted_index'][wordID]
 
-			word_background_prob = self.indices['background'][wordID]
-			word_inverted_index = self.indices['inverted_index'][wordID].items()
-			for docID, docprob in word_inverted_index:
-				unscored_docs.remove(docID)
+            for docID in self.docnames:
+                # Get doc prob if in inverted_index, else set to 0.
+                docprob = word_inverted_index.get(docID, 0.)
 
-				doclength = self.indices['doclengs'][ docID ]
+                doclength = self.indices['doclengs'][docID]
 
-				weighted_entropy = entropy_weight * \
-					entropy_between_word_and_smoothed_doc(
-						word_prob, docprob, doclength, word_background_prob)
+                smoothed_docprob = smooth_docprob(
+                    docprob, doclength, word_background_prob)
 
-				# Adds to result
-				if self.result[docID] != sys.float_info.min:
-					self.result[docID] += weighted_entropy
-				else:
-					self.result[docID] = weighted_entropy
+                weighted_entropy = entropy_weight * \
+                    cross_entropy(word_prob, smoothed_docprob)
+                # Add to result
+                self.result[docID] += weighted_entropy
 
-			# Smooth background for those unscored
-			for docID in unscored_docs:
-				doclength = self.indices['doclengs'][ docID ]
 
-				weighted_entropy = entropy_weight * \
-					entropy_between_word_and_smoothed_doc(
-						word_prob, 0., doclength, word_background_prob)
-
-				# Adds to result
-				if self.result[docID] != sys.float_info.min:
-					self.result[docID] += weighted_entropy
-				else:
-					self.result[docID] = weighted_entropy
-
-def smooth_weight_from_docleng(length, alpha=1000):
-	return length / (length + alpha)
-
-def interpolate_with_smoothing_weight(p1, p2, alpha_d):
-	return (1 - alpha_d) * p1 + alpha_d * p2
-
-def entropy_between_word_and_smoothed_doc(word_prob, docprob, doclength, word_background_prob):
-	alpha_d = smooth_weight_from_docleng(doclength)
-	smoothed_docprob = interpolate_with_smoothing_weight(word_background_prob, docprob, alpha_d)
-	entropy = cross_entropy(word_prob, smoothed_docprob)
-	return entropy
+def smooth_docprob(docprob, doclength, word_background_prob, alpha=1000):
+    alpha_d = doclength / (doclength + alpha)
+    smoothed_docprob = (1 - alpha_d) * word_background_prob + alpha_d * docprob
+    return smoothed_docprob
 
 
 if __name__ == "__main__":
-	pass
+    pass
