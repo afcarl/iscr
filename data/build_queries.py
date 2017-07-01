@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+sys.path.append('.')
 
 from iscr.searchengine.indexer import text_to_wordcount
 from iscr.utils import load_from_pickle, save_to_pickle

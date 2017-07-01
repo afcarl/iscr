@@ -19,7 +19,7 @@ def segment_jieba(text, verbose=False):
 	result = list(jieba.cut(text))
 	if verbose:
 		print(result)
-	return ' '.join(result)
+	return '\n'.join(result)
 
 
 def segment_ckip(text, verbose=False):
