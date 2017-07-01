@@ -9,3 +9,9 @@ python scripts/test_retrieval.py -q ./queries/PTV.dnn.onebest.jieba.query.pickle
 echo
 echo "Producing Reference jieba results"
 python scripts/test_retrieval.py -q queries/PTV.reference.jieba.query.pickle -d ./iscr/searchengine/collections/PTV.reference.jieba/
+echo
+echo "Producing DNN onebest ckip results"
+python scripts/test_retrieval.py -q ./queries/PTV.dnn.onebest.ckip.query.pickle -d ./iscr/searchengine/collections/PTV.dnn.onebest.ckip
+echo
+echo "Producing Reference ckip results"
+python scripts/test_retrieval.py -q queries/PTV.reference.ckip.query.pickle -d ./iscr/searchengine/collections/PTV.reference.ckip/
