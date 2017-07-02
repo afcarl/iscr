@@ -45,25 +45,25 @@ class SearchEngine(object):
 
 	def update_document_scores(self, query, entropy_weight=1.):
 		"""
-				Iterate through every document to calculate scores
+			Iterate through every document to calculate scores
 		"""
 		# Loop through query first to lower access time
 		query_indices = []
 		for wordID, word_prob in query.items():
-			# Recored scored documents for this word
+			# Word does not intersect with any documents
 			if wordID not in self._indices['background']:
 				continue
 
 			word_background_prob = self._indices['background'][wordID]
 			word_inverted_index = self._indices['inverted_index'][wordID]
 
-			query_indices.append((word_background_prob, word_inverted_index))
+			query_indices.append((word_prob, word_background_prob, word_inverted_index))
 
 		# For every document, calculate its cross entropy score
 		for docname in self._docscores:
 			# Loop through query
 			entropy_sum = 0.
-			for word_background_prob, word_inverted_index in query_indices:
+			for word_prob, word_background_prob, word_inverted_index in query_indices:
 				# Get doc prob if in inverted_index, else set to 0.
 				docprob = word_inverted_index.get(docname, 0.)
 				doclength = self._indices['doclengs'][docname]
