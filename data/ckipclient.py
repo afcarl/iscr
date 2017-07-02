@@ -1,6 +1,7 @@
 """
-	Source: https://github.com/yuwen41200/ckip-client/
+	Modified from https://github.com/yuwen41200/ckip-client/
 """
+import json
 import socket
 import string
 import time
@@ -135,3 +136,8 @@ class CKIPClient:
                         results[-1].append(word)
 
         return results
+
+
+obj = json.loads(open('./data/ckipauth.json','r').read())
+
+MyClient = CKIPClient(**obj)

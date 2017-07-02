@@ -8,7 +8,7 @@ sys.path.append('.')
 
 from tqdm import tqdm
 
-from ckipclient import CKIPClient
+
 from iscr.utils import load_from_pickle, save_to_pickle
 
 
@@ -102,9 +102,9 @@ if __name__ == "__main__":
 	segment_method = args.segment
 
 	if segment_method == 'ckip':
-		client = CKIPClient('140.109.19.104', 1501,
-							'iammrhelo', 'hl4su3a8')
-	elif segment_method == jieba:
+		from ckipclient import MyClient as client
+
+	elif segment_method == 'jieba':
 		import jieba
 
 	run_segment(args.segment, args.input, args.output, args.retain_line, args.skip_exists)
