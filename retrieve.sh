@@ -1,17 +1,17 @@
 echo "Producing Onebest CMVN paper results..."
-python scripts/test_retrieval.py -q ./queries/PTV.onebest.CMVN.paper.query.pickle -d ./iscr/searchengine/collections/PTV.onebest.CMVN.paper/
+python scripts/test_klranker.py -q ./queries/PTV.onebest.CMVN.paper.query.pickle -d ./iscr/ranker/collections/PTV.onebest.CMVN.paper/
 echo
 echo "Producing Lattice CMVN paper results..."
-python scripts/test_retrieval.py -q ./queries/PTV.lattice.CMVN.paper.query.pickle -d ./iscr/searchengine/collections/PTV.lattice.CMVN.paper/
+python scripts/test_klranker.py -q ./queries/PTV.lattice.CMVN.paper.query.pickle -d ./iscr/ranker/collections/PTV.lattice.CMVN.paper/
 echo
 echo "Producing DNN onebest jieba results"
-python scripts/test_retrieval.py -q ./queries/PTV.dnn.onebest.jieba.query.pickle -d ./iscr/searchengine/collections/PTV.dnn.onebest.jieba
+python scripts/test_klranker.py -q ./queries/PTV.dnn.onebest.jieba.query.pickle -d ./iscr/ranker/collections/PTV.dnn.onebest.jieba
 echo
 echo "Producing Reference jieba results"
-python scripts/test_retrieval.py -q queries/PTV.reference.jieba.query.pickle -d ./iscr/searchengine/collections/PTV.reference.jieba/
+python scripts/test_klranker.py -q queries/PTV.reference.jieba.query.pickle -d ./iscr/ranker/collections/PTV.reference.jieba/
 echo
 echo "Producing DNN onebest ckip results"
-python scripts/test_retrieval.py -q ./queries/PTV.dnn.onebest.ckip.query.pickle -d ./iscr/searchengine/collections/PTV.dnn.onebest.ckip
+python scripts/test_klranker.py -q ./queries/PTV.dnn.onebest.ckip.query.pickle -d ./iscr/ranker/collections/PTV.dnn.onebest.ckip
 echo
 echo "Producing Reference ckip results"
-python scripts/test_retrieval.py -q queries/PTV.reference.ckip.query.pickle -d ./iscr/searchengine/collections/PTV.reference.ckip/
+python scripts/test_klranker.py -q queries/PTV.reference.ckip.query.pickle -d ./iscr/ranker/collections/PTV.reference.ckip/

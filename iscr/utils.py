@@ -1,4 +1,3 @@
-import json
 import math
 import pickle
 
@@ -11,16 +10,6 @@ def load_from_pickle(filename):
 def save_to_pickle(filename, obj):
     with open(filename, 'wb') as fout:
         pickle.dump(obj, fout)
-
-
-def load_from_json(filename):
-    with open(filename, 'r') as fin:
-        return json.load(fin)
-
-
-def save_to_json(filename, obj):
-    with open(filename, 'w') as fout:
-        json.dump(obj, fout, ensure_ascii=False, sort_keys=True, indent=4)
 
 
 def convert_size(size_bytes):

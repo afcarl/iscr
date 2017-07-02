@@ -106,7 +106,7 @@ def run_reformat(data_dir, out_dir, lex_file, query_pickle):
 
 if __name__ == "__main__":
 	data_dir = '../data/lattice_CMVN'
-	out_dir = '../iscr/searchengine/data/PTV.lattice.CMVN.paper'
+	out_dir = '../iscr/ranker/collections/PTV.lattice.CMVN.paper'
 	lex_file = '../data/PTV.utf8.lex'
 	query_pickle = '../queries/PTV.lattice.CMVN.paper.query.pickle'
 	run_reformat(data_dir, out_dir, lex_file, query_pickle)
