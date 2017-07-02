@@ -58,8 +58,9 @@ class BaseRanker(object):
         if negquery is not None:
             self.update_document_scores(negquery, entropy_weight=-0.1)
 
+		# Compare value first, then by key, yields stable results
         sorted_ret = sorted(self._docscores.items(),
-                            key=lambda x: x[1], reverse=True)
+                            key=lambda x: (x[1],x[0]), reverse=True)
         return sorted_ret
 
     def update_document_scores(self, query, entropy_weight=1.):
