@@ -1,14 +1,13 @@
+import argparse
 from glob import glob
 import os
 import sys
-
 sys.path.append('..')
 
 from tqdm import tqdm
 
 from iscr import utils
 import reader
-
 
 def run_reformat(data_dir, out_dir, lex_file, query_pickle):
 	if not os.path.exists(out_dir):
@@ -41,7 +40,7 @@ def run_reformat(data_dir, out_dir, lex_file, query_pickle):
 
 	print("Converting inverted index docnames...")
 	named_inverted_index = {}
-	for wordID, docs_prob in inverted_index.items():
+	for wordID, docs_prob in tqdm(inverted_index.items()):
 		named_docs_prob = {}
 		for docID, prob in docs_prob.items():
 			docname = 'T' + str(docID).zfill(4)
@@ -62,7 +61,7 @@ def run_reformat(data_dir, out_dir, lex_file, query_pickle):
 		length = namekey_doclengs[ docname ]
 		for word_idx, word_prob in lm.items():
 			wc[ word_idx ] = round(word_prob * length)
-		documents_wc[ docname ] = wc
+		documents_wc[ docname ] = { 'wordcount': wc }
 
 	print("Saving lex to pickle...")
 	lex_dict = reader.readLex(lex_file)
@@ -103,10 +102,12 @@ def run_reformat(data_dir, out_dir, lex_file, query_pickle):
 
 	utils.save_to_pickle(query_pickle, query)
 
-
 if __name__ == "__main__":
-	data_dir = '../data/lattice_CMVN'
-	out_dir = '../iscr/ranker/collections/PTV.lattice.CMVN.paper'
-	lex_file = '../data/PTV.utf8.lex'
-	query_pickle = '../queries/PTV.lattice.CMVN.paper.query.pickle'
-	run_reformat(data_dir, out_dir, lex_file, query_pickle)
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-d','--data_dir',type=str,default='./onebest_CMVN')
+	parser.add_argument('-o','--out_dir',type=str,default='../collections/PTV.onebest.CMVN.paper')
+	parser.add_argument('-l','--lex_file',type=str,default='./PTV.utf8.lex')
+	parser.add_argument('-q','--query_pickle',type=str,default='../queries/PTV.onebest.CMVN.paper.query.pickle')
+	args = parser.parse_args()
+
+	run_reformat(args.data_dir, args.out_dir, args.lex_file, args.query_pickle)
