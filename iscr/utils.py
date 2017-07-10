@@ -1,6 +1,16 @@
 import math
 import pickle
 
+def normalize(d, inplace=False):
+	total = sum(d.values())
+	if inplace is True:
+		for k, v in d.items():
+			d[k] = v / total
+	else:
+		norm_d = {}
+		for k, v in d.items():
+			norm_d[k] = v / total
+		return norm_d
 
 def load_from_pickle(filename):
     with open(filename, 'rb') as fin:

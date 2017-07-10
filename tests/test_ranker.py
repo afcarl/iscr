@@ -1,8 +1,7 @@
 import os
 
-from iscr.ranker.metrics import normalize
 from iscr.ranker import KLRanker
-from iscr.utils import load_from_pickle, save_to_pickle
+from iscr.utils import load_from_pickle, save_to_pickle, normalize
 
 
 def test_klranker():

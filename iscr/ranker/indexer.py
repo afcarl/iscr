@@ -9,8 +9,7 @@ import time
 from pympler import asizeof
 from tqdm import tqdm
 
-from .metrics import normalize
-from ..utils import save_to_pickle, convert_size
+from ..utils import save_to_pickle, convert_size, normalize
 
 
 class Indexer(object):

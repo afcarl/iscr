@@ -7,9 +7,8 @@ sys.path.append('.')
 from tqdm import tqdm
 
 from iscr import KLRanker
-from iscr.ranker.metrics import normalize
 from iscr.evalute import average_precision
-from iscr.utils import load_from_pickle
+from iscr.utils import load_from_pickle, normalize
 
 
 def run_ap_baseline(query_pickle, data_dir):
